@@ -1,0 +1,67 @@
+---
+title: "predicciones"
+author: "Valentina Quiroga Fonseca"
+date: "06/03/2015"
+output: html_document
+---
+#Análisis financiero del Dólar en Colombia
+#Valentina Quiroga Fonseca
+```{r}
+library(ggplot2) #descargando los paquetes 
+library(Quandl)
+library(scales)
+```
+##Requerimos descargar la serie de tiempo de precios diarios de COP/USD desde el 2000 hasta 2015-02-23. Imprima los 5 primeros valores de esta serie de tiempo.
+```{r}
+
+Quandl.auth("nL1LVi26-ZmsJ5JHsmdq") #codigo de autorizacion de Quandl
+
+```
+##de la documentacion de Quandl vemos que auth es una funcion que extrae la serie de tiempo para una grupo de datos.
+
+```{r}
+
+data <- Quandl("BNP/USDCOP", inicio="2000-1-1", final="2015-2-23") 
+
+data1 <- head(data$'USD/COP',5)
+print(data1) 
+#son los valores requeridos en a.
+```
+#guardando los datos y asignandolos a la variable data. Ahora queremos los 5 primero valores para la serie de tiempo, luego recurrimos a tail.
+
+
+##b. Cree una visualización donde se muestre la evolución temporal de COP/USD en este periodo, usando ggplot2. El tíıtulo del gráfico debe contener el rango de tiempo.
+
+```{r}
+
+rel = ggplot(data, aes(x=Date,y= data$'USD/COP')) + geom_line() + xlab('Tiempo') + ylab('USD/COP') + ggtitle('Relacion USD/COP 2000-2015') + geom_line(colour = "red")  
+print(rel) 
+
+```
+
+##Cree un gráfico donde se vean estos datos año por año.  Tip: Puede usar el paquete lubridate y el concepto de facets.
+##Queremos extraer los datos por año, para ello utilizo $ pues permite extraer un vector o factor de un data Frame. 
+```{r}
+
+data$year <- format(data$Date, "%Y")
+a<-data$year
+b<-data$Date
+
+rel2 = ggplot(data, aes(x=year,y= data$'USD/COP')) +xlab('Tiempo') + ylab('1 USD / COP') + ggtitle('Relacion precio USD / COP 2000 - 2015')  + facet_grid(scales ="free", ~year) + geom_boxplot() 
+print(rel2)
+
+```
+##Haga una visualizacion de su prediccion de esta serie de tiempo hasta hasta 2017 −. Puede utilizar desde un modelo lineal (lm) hasta cualquier generalizaćon que le parezca glm,gam, etc. Describa y justifique su escogencia.
+
+##Por mis conocimientos en Mecánica estadística y procesos estocásticos, me atrevería a decir que no tiene sentido modelar el comportamiento (fielmente) del dólar pues al ser un proceso estocástico, lo único que tenemos claro sobre él es que ha de varias de forma aleatoria, es por ello que decidí tomar el modelo que permite mayor espectro de inclusión en los datos, es decir un modelo lineal sencillo.
+
+
+```{r}
+regresion <- ggplot(data, aes(x=Date,y= data$'USD/COP'))+ geom_line() + xlab('Tiempo') + ylab('Relacion 1 USD/COP ')+ ggtitle('Relacion USD/COP 2000-2015')  
+
+regresion + stat_smooth(method = "lm") + geom_point()
+
+
+
+
+```
