@@ -4,10 +4,10 @@
 ## Punto 3b, importar archivos y editarlos
 
 # In[108]:
-
+import numpy as np
+import matplotlib as mlp
 import csv
-get_ipython().magic(u'pylab inline')
-
+#get_ipython().magic(u'pylab inlii
 
 # In[109]:
 
@@ -28,11 +28,11 @@ for line in reader:
 # In[110]:
 
 a.close() #terminal para mostrar que hay en el areglo
-get_ipython().system(u'cat Notas.dat ')
+#get_ipython().system(u'cat Notas.dat ')
 
 
 
 # In[111]:
 
-get_ipython().system(u'ls #')
+#get_ipython().system(u'ls #')
 
